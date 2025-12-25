@@ -30,8 +30,8 @@ Update the file after completing each sub-task, not just after completing an ent
 
 - [ ] 0.0 Project setup
   - [x] 0.1 Initialize git repository (`git init`)
-  - [ ] 0.2 Create `.gitignore` (include `*.db`, `__pycache__`, `.venv`)
-  - [ ] 0.3 Create `data/` directory for database file
+  - [x] 0.2 Create `.gitignore` (include `*.db`, `__pycache__`, `.venv`)
+  - [x] 0.3 Create `data/` directory for database file
 
 - [ ] 1.0 Create config.py - Define constants
   - [ ] 1.1 Create `config.py` file
