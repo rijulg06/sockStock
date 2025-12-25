@@ -28,17 +28,17 @@ Update the file after completing each sub-task, not just after completing an ent
 
 ## Tasks
 
-- [ ] 0.0 Project setup
+- [x] 0.0 Project setup
   - [x] 0.1 Initialize git repository (`git init`)
   - [x] 0.2 Create `.gitignore` (include `*.db`, `__pycache__`, `.venv`)
   - [x] 0.3 Create `data/` directory for database file
 
 - [ ] 1.0 Create config.py - Define constants
-  - [ ] 1.1 Create `config.py` file
-  - [ ] 1.2 Define STAGES constant: list of 4 stages ("Order", "Raw Made", "Sent for Press", "Sale")
-  - [ ] 1.3 Define DATABASE_PATH constant: "data/inventory.db"
-  - [ ] 1.4 Define stage transition map (which stage follows which)
-  - [ ] 1.5 Test by importing config and printing values
+  - [x] 1.1 Create `config.py` file
+  - [x] 1.2 Define STAGES constant: list of 4 stages ("Order", "Raw Made", "Sent for Press", "Sale")
+  - [x] 1.3 Define DATABASE_PATH constant: "data/inventory.db"
+  - [x] 1.4 Define stage transition map (which stage follows which)
+  - [x] 1.5 Test by importing config and printing values
 
 - [ ] 2.0 Create database.py - Database schema and initialization
   - [ ] 2.1 Create `database.py` file
