@@ -33,9 +33,9 @@ Update the file after completing each sub-task, not just after completing an ent
   - [x] 0.2 Create `.gitignore` (include `*.db`, `__pycache__`, `.venv`)
   - [x] 0.3 Create `data/` directory for database file
 
-- [ ] 1.0 Create config.py - Define constants
+- [x] 1.0 Create config.py - Define constants
   - [x] 1.1 Create `config.py` file
-  - [x] 1.2 Define STAGES constant: list of 4 stages ("Order", "Raw Made", "Sent for Press", "Sale")
+  - [x] 1.2 Define STAGES constant: list of 5 stages ("Order", "Raw Made", "Sent for Press", "Ready Stock", "Dispatch")
   - [x] 1.3 Define DATABASE_PATH constant: "data/inventory.db"
   - [x] 1.4 Define stage transition map (which stage follows which)
   - [x] 1.5 Test by importing config and printing values
@@ -103,12 +103,12 @@ Update the file after completing each sub-task, not just after completing an ent
   - [ ] 9.1 Add welcome message when app starts
   - [ ] 9.2 Add helpful prompts and error messages throughout
   - [ ] 9.3 Handle Ctrl+C gracefully (catch KeyboardInterrupt, say goodbye)
-  - [ ] 9.4 Test complete workflow: add order → move to Raw Made → move to Sent for Press → move to Sale
+  - [ ] 9.4 Test complete workflow: add order → move to Raw Made → move to Sent for Press → move to Ready Stock → move to Dispatch
   - [ ] 9.5 Fix any bugs found during testing
 
 - [ ] 10.0 Documentation
   - [ ] 10.1 Create `README.md` with project description
   - [ ] 10.2 Add installation instructions (just run `python main.py`)
   - [ ] 10.3 Add usage examples for both modes
-  - [ ] 10.4 Document the 4 stages and how stock flows through them
+  - [ ] 10.4 Document the 5 stages and how stock flows through them
   - [ ] 10.5 Commit all files to git with descriptive message

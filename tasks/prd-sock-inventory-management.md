@@ -2,7 +2,7 @@
 
 ## Introduction/Overview
 
-The Sock Factory Inventory Management System is a command-line application designed to track sock inventory throughout the production and sales cycle for a local sock manufacturing facility. The system enables staff to monitor stock levels across four distinct stages: Order (via invoice), Raw Made (ready for press), Sent for Press, and Sale. The application supports tracking socks by quality, color, and size attributes, providing real-time visibility into inventory positions at each production stage.
+The Sock Factory Inventory Management System is a command-line application designed to track sock inventory throughout the production and sales cycle for a local sock manufacturing facility. The system enables staff to monitor stock levels across five distinct stages: Order (via invoice), Raw Made (ready for press), Sent for Press, Ready Stock (after pressing), and Dispatch (ready for sale/shipment). The application supports tracking socks by quality, color, and size attributes, providing real-time visibility into inventory positions at each production stage.
 
 **Problem it solves:** Currently, there is no centralized way to track sock inventory as it moves through the production pipeline, making it difficult to know how much stock is at each stage and which varieties are in production or ready for sale.
 
@@ -10,7 +10,7 @@ The Sock Factory Inventory Management System is a command-line application desig
 
 ## Goals
 
-1. **Enable accurate stock tracking** across all four production stages with variant-level granularity (quality, color, size)
+1. **Enable accurate stock tracking** across all five production stages with variant-level granularity (quality, color, size)
 2. **Provide instant visibility** into current inventory levels at each stage for any sock variant
 3. **Ensure data integrity** when moving stock between stages (subtract from source, add to destination)
 4. **Support concurrent usage** by multiple staff members in the shop without data conflicts
@@ -22,7 +22,8 @@ The Sock Factory Inventory Management System is a command-line application desig
 - As a stock manager, I want to add new sock orders to the system so that I can track incoming inventory from suppliers
 - As a stock manager, I want to move socks from "Order" to "Raw Made" when they arrive and are ready for pressing
 - As a stock manager, I want to move socks from "Raw Made" to "Sent for Press" when they are sent to the pressing facility
-- As a stock manager, I want to move socks from "Sent for Press" to "Sale" when they return and are ready to sell
+- As a stock manager, I want to move socks from "Sent for Press" to "Ready Stock" when they return from pressing
+- As a stock manager, I want to move socks from "Ready Stock" to "Dispatch" when they are ready to sell or ship
 - As a stock manager, I want to specify quality, color, and size for each stock entry so variants are tracked separately
 - As a stock manager, I want to see confirmation messages after updates so I know the changes were saved
 
@@ -48,7 +49,7 @@ The Sock Factory Inventory Management System is a command-line application desig
 1.7. Users must be able to input/select quality, color, and size when adding stock
 
 ### FR2: Stock Stage Management
-2.1. The system must maintain four distinct inventory stages: "Order", "Raw Made", "Sent for Press", "Sale"
+2.1. The system must maintain five distinct inventory stages: "Order", "Raw Made", "Sent for Press", "Ready Stock", "Dispatch"
 2.2. Each stage must track quantity for each sock variant independently
 2.3. The system must display stage names clearly in all interfaces
 
@@ -63,7 +64,8 @@ The Sock Factory Inventory Management System is a command-line application desig
 4.1. The system must allow users to move stock from one stage to the next in sequence only:
    - Order → Raw Made
    - Raw Made → Sent for Press
-   - Sent for Press → Sale
+   - Sent for Press → Ready Stock
+   - Ready Stock → Dispatch
 4.2. The system must enforce sequential progression (no stage skipping allowed)
 4.3. The system must support partial movements (e.g., move 30 units while 70 remain in current stage)
 4.4. When moving stock, the system must subtract the quantity from the source stage
@@ -157,7 +159,7 @@ CREATE TABLE inventory (
     quantity INTEGER NOT NULL DEFAULT 0,
     FOREIGN KEY (variant_id) REFERENCES sock_variants(variant_id),
     UNIQUE(variant_id, stage),
-    CHECK(stage IN ('Order', 'Raw Made', 'Sent for Press', 'Sale')),
+    CHECK(stage IN ('Order', 'Raw Made', 'Sent for Press', 'Ready Stock', 'Dispatch')),
     CHECK(quantity >= 0)
 );
 
@@ -203,7 +205,7 @@ CREATE TABLE sizes (
 ### Answered
 ✅ **Variant attributes**: 4 quality types, 10 colors, 10 sizes (400 possible combinations) - Specific names TBD during implementation
 ✅ **Partial movements**: Yes, users can move partial quantities (e.g., 30 out of 100)
-✅ **Stage skipping**: No, must follow sequential order (Order → Raw Made → Sent for Press → Sale)
+✅ **Stage skipping**: No, must follow sequential order (Order → Raw Made → Sent for Press → Ready Stock → Dispatch)
 
 ### Remaining Questions
 1. **Specific variant names**: What are the exact names for the 4 quality types? The 10 colors? The 10 sizes?

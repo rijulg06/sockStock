@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**sockStock** is a command-line inventory management system for a sock manufacturing facility. It tracks sock inventory across four production stages: Order (via invoice), Raw Made (ready for press), Sent for Press, and Sale. The system enables staff to update and view stock levels for sock variants distinguished by quality, color, and size.
+**sockStock** is a command-line inventory management system for a sock manufacturing facility. It tracks sock inventory across five production stages: Order (via invoice), Raw Made (ready for press), Sent for Press, Ready Stock (after pressing), and Dispatch (ready for sale/shipment). The system enables staff to update and view stock levels for sock variants distinguished by quality, color, and size.
 
 **Product Requirements**: See [tasks/prd-sock-inventory-management.md](tasks/prd-sock-inventory-management.md) for complete requirements.
 
@@ -56,7 +56,7 @@ sockStock/
 
 **Inventory Stage Flow:**
 ```
-Order → Raw Made → Sent for Press → Sale
+Order → Raw Made → Sent for Press → Ready Stock → Dispatch
 ```
 
 **Stock Movement Rules:**
@@ -70,7 +70,7 @@ Order → Raw Made → Sent for Press → Sale
 
 **Data Model:**
 - **Sock Variants**: Defined by Quality + Color + Size (each unique combination is a variant)
-- **Inventory Stages**: Four stages with quantity tracking per variant
+- **Inventory Stages**: Five stages with quantity tracking per variant
 - **Atomicity**: Stock movements use transactions to ensure consistency
 
 ## Important Implementation Details
@@ -94,7 +94,7 @@ CREATE TABLE inventory (
     quantity INTEGER NOT NULL DEFAULT 0,
     FOREIGN KEY (variant_id) REFERENCES sock_variants(variant_id),
     UNIQUE(variant_id, stage),
-    CHECK(stage IN ('Order', 'Raw Made', 'Sent for Press', 'Sale')),
+    CHECK(stage IN ('Order', 'Raw Made', 'Sent for Press', 'Ready Stock', 'Dispatch')),
     CHECK(quantity >= 0)
 );
 ```
