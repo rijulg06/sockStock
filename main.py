@@ -23,13 +23,14 @@ def update_mode():
     print("\n--- Update Mode ---")
     print("1. Add new stock")
     print("2. Move stock")
-    print("3. Back")
+    print("3. Undo last operation")
+    print("4. Back")
 
-    choice = input("\nEnter your choice (1-3): ")
+    choice = input("\nEnter your choice (1-4): ")
 
     # Validate input
-    if choice not in ['1', '2', '3']:
-        print("Invalid choice. Please enter 1, 2, or 3.")
+    if choice not in ['1', '2', '3', '4']:
+        print("Invalid choice. Please enter 1, 2, 3, or 4.")
         return update_mode()  # Ask again
 
     choice = int(choice)
@@ -95,6 +96,27 @@ def update_mode():
             print(f"\n✗ Failed to move stock: {e}")
 
     elif choice == 3:
+        # Remove last entry
+        try:
+            result = database.remove_stock()
+
+            if result['success']:
+                info = result['deleted_info']
+                print(f"\n✓ Successfully removed last entry:")
+                print(f"  {info['quantity']} units of {info['color']} {info['size']} socks (Quality {info['quality']})")
+                print(f"  From stage: {info['stage']}")
+
+                if result['variant_deleted']:
+                    print(f"  Note: Variant fully removed (no remaining inventory)")
+            else:
+                print("\n✗ Failed to remove stock")
+
+        except ValueError as e:
+            print(f"\n✗ Error: {e}")
+        except Exception as e:
+            print(f"\n✗ Failed to remove stock: {e}")
+
+    elif choice == 4:
         return
 
 def stage_change():

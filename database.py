@@ -302,6 +302,113 @@ def move_stock(variant_id, source_stage, quantity):
         # Always close connection
         conn.close()
 
+def remove_stock():
+    """
+    Remove the most recently added inventory record (undo last action).
+
+    Finds the inventory record with the highest ID (most recent) and removes
+    only that specific record. If this leaves the variant with no inventory
+    across all stages, the variant itself is also removed.
+
+    Returns:
+        dict: Information about the deletion
+            {
+                'success': True,
+                'record_id': int,
+                'variant_id': int,
+                'deleted_info': {
+                    'quality': str,
+                    'color': str,
+                    'size': str,
+                    'stage': str,
+                    'quantity': int
+                },
+                'variant_deleted': bool
+            }
+
+    Raises:
+        ValueError: If no inventory exists to remove
+
+    Example:
+        >>> remove_stock()
+        {
+            'success': True,
+            'record_id': 42,
+            'variant_id': 4,
+            'deleted_info': {'quality': 'A', 'color': 'red', ...},
+            'variant_deleted': False
+        }
+    """
+    conn = sqlite3.connect(config.DB_PATH)
+    cursor = conn.cursor()
+
+    try:
+        # Find the most recent inventory record (highest id)
+        cursor.execute("""
+            SELECT
+                inventory.id,
+                inventory.variant_id,
+                inventory.stage,
+                inventory.quantity,
+                sock_variants.quality,
+                sock_variants.color,
+                sock_variants.size
+            FROM inventory
+            JOIN sock_variants ON inventory.variant_id = sock_variants.variant_id
+            WHERE inventory.id = (SELECT MAX(id) FROM inventory)
+        """)
+
+        result = cursor.fetchone()
+
+        if not result:
+            raise ValueError("No inventory records exist to remove")
+
+        # Unpack the result
+        record_id, variant_id, stage, quantity, quality, color, size = result
+
+        # Delete only this specific inventory record (not all records for variant)
+        cursor.execute("""
+            DELETE FROM inventory WHERE id = ?
+        """, (record_id,))
+
+        # Check if this variant has any remaining inventory
+        cursor.execute("""
+            SELECT COUNT(*) FROM inventory WHERE variant_id = ?
+        """, (variant_id,))
+
+        remaining_count = cursor.fetchone()[0]
+        variant_deleted = False
+
+        # Only delete the variant if it has no remaining inventory
+        if remaining_count == 0:
+            cursor.execute("""
+                DELETE FROM sock_variants WHERE variant_id = ?
+            """, (variant_id,))
+            variant_deleted = True
+
+        conn.commit()
+
+        return {
+            'success': True,
+            'record_id': record_id,
+            'variant_id': variant_id,
+            'deleted_info': {
+                'quality': quality,
+                'color': color,
+                'size': size,
+                'stage': stage,
+                'quantity': quantity
+            },
+            'variant_deleted': variant_deleted
+        }
+
+    except Exception as e:
+        conn.rollback()
+        raise Exception(f"Failed to remove stock: {e}")
+
+    finally:
+        conn.close()
+
 def get_all_inventory():
     """
     Get all inventory records with variant details.
