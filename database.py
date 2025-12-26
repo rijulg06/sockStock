@@ -182,3 +182,122 @@ def add_stock(quality, color, size, quantity):
     finally:
         # Always close connection
         conn.close()
+
+def move_stock(variant_id, source_stage, quantity):
+    """
+    Move stock from one production stage to the next sequential stage.
+
+    Subtracts quantity from source_stage and adds it to the next stage
+    defined in config.STAGE_TRANSITIONS.
+
+    Args:
+        variant_id (int): The variant ID to move
+        source_stage (str): Current stage (e.g., 'Order', 'Raw Made')
+        quantity (int): Quantity to move (must be positive and <= available stock)
+
+    Returns:
+        dict: Success message with before/after quantities
+            {
+                'success': True,
+                'variant_id': int,
+                'source_stage': str,
+                'destination_stage': str,
+                'quantity_moved': int,
+                'source_remaining': int,
+                'destination_total': int
+            }
+
+    Raises:
+        ValueError: If stage is invalid, insufficient stock, or variant doesn't exist
+
+    Example:
+        >>> move_stock(1, 'Order', 50)
+        {'success': True, 'source_remaining': 100, 'destination_total': 50, ...}
+    """
+    # Validate inputs
+    if quantity <= 0:
+        raise ValueError(f"Quantity must be positive, got {quantity}")
+
+    if source_stage not in config.STAGES:
+        raise ValueError(f"Invalid source stage: {source_stage}")
+
+    # Determine next stage
+    next_stage = config.STAGE_TRANSITIONS.get(source_stage)
+    if not next_stage:
+        raise ValueError(f"Cannot move from '{source_stage}' - already at final stage")
+
+    conn = sqlite3.connect(config.DB_PATH)
+    cursor = conn.cursor()
+
+    try:
+        # Check if inventory exists for this variant in the source stage
+        cursor.execute("""
+            SELECT quantity FROM inventory
+            WHERE variant_id = ? AND stage = ?
+        """, (variant_id, source_stage))
+
+        result = cursor.fetchone()
+        if not result:
+            raise ValueError(
+                f"No inventory found for variant_id {variant_id} in stage '{source_stage}'"
+            )
+
+        current_quantity = result[0]
+
+        # Validate sufficient stock
+        if current_quantity < quantity:
+            raise ValueError(
+                f"Insufficient stock in '{source_stage}': "
+                f"requested {quantity}, available {current_quantity}"
+            )
+
+        # Subtract from source stage using SQL
+        cursor.execute("""
+            UPDATE inventory
+            SET quantity = quantity - ?
+            WHERE variant_id = ? AND stage = ?
+        """, (quantity, variant_id, source_stage))
+
+        # Add to destination stage (create row if doesn't exist)
+        cursor.execute("""
+            INSERT INTO inventory (variant_id, stage, quantity)
+            VALUES (?, ?, ?)
+            ON CONFLICT(variant_id, stage)
+            DO UPDATE SET
+                quantity = inventory.quantity + excluded.quantity
+        """, (variant_id, next_stage, quantity))
+
+        # Get final quantities for confirmation
+        cursor.execute("""
+            SELECT quantity FROM inventory
+            WHERE variant_id = ? AND stage = ?
+        """, (variant_id, source_stage))
+        source_remaining = cursor.fetchone()[0]
+
+        cursor.execute("""
+            SELECT quantity FROM inventory
+            WHERE variant_id = ? AND stage = ?
+        """, (variant_id, next_stage))
+        destination_total = cursor.fetchone()[0]
+
+        # Commit transaction
+        conn.commit()
+
+        return {
+            'success': True,
+            'variant_id': variant_id,
+            'source_stage': source_stage,
+            'destination_stage': next_stage,
+            'quantity_moved': quantity,
+            'source_remaining': source_remaining,
+            'destination_total': destination_total
+        }
+
+    except Exception as e:
+        # Rollback on any error
+        conn.rollback()
+        raise Exception(f"Failed to move stock: {e}")
+
+    finally:
+        # Always close connection
+        conn.close()

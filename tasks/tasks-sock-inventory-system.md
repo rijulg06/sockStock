@@ -56,20 +56,19 @@ Update the file after completing each sub-task, not just after completing an ent
   - [x] 3.4 Use transactions (BEGIN, COMMIT, ROLLBACK on error)
   - [x] 3.5 Test manually: add a few different sock variants
 
-- [ ] 4.0 Create database.py - Move stock functions
-  - [ ] 4.1 Write `move_stock()` function: takes variant_id, source_stage, quantity
-  - [ ] 4.2 Validate: check if enough stock exists in source stage
-  - [ ] 4.3 Validate: determine destination stage from config (must be sequential)
-  - [ ] 4.4 Execute: subtract from source stage, add to destination stage (in transaction)
-  - [ ] 4.5 Return success/error message with before/after quantities
-  - [ ] 4.6 Test manually: add stock, then move through stages
+- [x] 4.0 Create database.py - Move stock functions
+  - [x] 4.1 Write `move_stock()` function: takes variant_id, source_stage, quantity
+  - [x] 4.2 Validate: check if enough stock exists in source stage
+  - [x] 4.3 Validate: determine destination stage from config (must be sequential)
+  - [x] 4.4 Execute: subtract from source stage, add to destination stage (in transaction)
+  - [x] 4.5 Return success/error message with before/after quantities
+  - [x] 4.6 Test manually: add stock, then move through stages
 
 - [ ] 5.0 Create database.py - View stock functions
   - [ ] 5.1 Write `get_all_inventory()` function: JOIN variants and inventory tables
   - [ ] 5.2 Return list of dicts with: variant_id, quality, color, size, and quantity per stage
   - [ ] 5.3 Write `get_stock_summary()` function: sum quantities per stage
   - [ ] 5.4 Write `filter_inventory()` function: takes optional quality, color, size filters
-  
   - [ ] 5.5 Test manually: view all stock, filter by quality/color
 
 - [ ] 6.0 Create main.py - Main menu
