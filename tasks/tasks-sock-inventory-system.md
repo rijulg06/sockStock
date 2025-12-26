@@ -80,14 +80,14 @@ Update the file after completing each sub-task, not just after completing an ent
   - [x] 6.6 Add loop to return to main menu after each mode
   - [x] 6.7 Test: run main.py and navigate menus
 
-- [ ] 7.0 Create main.py - View Mode
-  - [ ] 7.1 Write `view_mode()` function
-  - [ ] 7.2 Display view options: 1. Show all stock, 2. Show summary, 3. Filter stock, 4. Back
-  - [ ] 7.3 Implement "Show all stock": call `get_all_inventory()` and display in table format
-  - [ ] 7.4 Implement "Show summary": call `get_stock_summary()` and display totals per stage
-  - [ ] 7.5 Implement "Filter stock": prompt for quality/color/size, call `filter_inventory()`
-  - [ ] 7.6 Format output nicely with aligned columns
-  - [ ] 7.7 Test: view stock in different ways
+- [x] 7.0 Create main.py - View Mode
+  - [x] 7.1 Write `view_mode()` function
+  - [x] 7.2 Display view options: 1. Show all stock, 2. Show summary, 3. Filter stock, 4. Back
+  - [x] 7.3 Implement "Show all stock": call `get_all_inventory()` and display in table format
+  - [x] 7.4 Implement "Show summary": call `get_stock_summary()` and display totals per stage
+  - [x] 7.5 Implement "Filter stock": prompt for quality/color/size, call `filter_inventory()`
+  - [x] 7.6 Format output nicely with aligned columns
+  - [x] 7.7 Test: view stock in different ways
 
 - [ ] 8.0 Create main.py - Update Mode
   - [ ] 8.1 Write `update_mode()` function
