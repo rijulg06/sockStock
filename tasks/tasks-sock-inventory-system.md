@@ -107,9 +107,9 @@ Update the file after completing each sub-task, not just after completing an ent
   - [x] 9.4 Test complete workflow: add order → move to Raw Made → move to Sent for Press → move to Ready Stock → move to Dispatch
   - [x] 9.5 Fix any bugs found during testing
 
-- [ ] 10.0 Documentation
-  - [ ] 10.1 Create `README.md` with project description
-  - [ ] 10.2 Add installation instructions (just run `python main.py`)
-  - [ ] 10.3 Add usage examples for both modes
-  - [ ] 10.4 Document the 5 stages and how stock flows through them
-  - [ ] 10.5 Commit all files to git with descriptive message
+- [x] 10.0 Documentation
+  - [x] 10.1 Create `README.md` with project description
+  - [x] 10.2 Add installation instructions (just run `python main.py`)
+  - [x] 10.3 Add usage examples for both modes
+  - [x] 10.4 Document the 5 stages and how stock flows through them
+  - [x] 10.5 Commit all files to git with descriptive message

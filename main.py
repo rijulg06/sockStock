@@ -215,7 +215,7 @@ def filter():
 def main():
     """Main program loop."""
     # Initialize database on startup
-    print('Hello Roopa Enterprises.\n')
+    print('\nHello Roopa Enterprises.')
     database.init_database()
     print('Database ready!')
 
