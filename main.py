@@ -53,8 +53,15 @@ def update_mode():
             print(f"\n✗ Failed to add stock: {e}")
 
     elif choice == 2:
+        # Move stock - show current inventory first
+        inventory = database.get_all_inventory()
+        if not inventory:
+            print("No inventory to move. Add stock first!")
+            return
+        
         try:
-            quality = input('\nQuality: ')
+            print("\n--- Select Sock to Move ---")
+            quality = input('Quality: ')
             color = input('Color: ')
             size = input('Size: ')
 
@@ -70,7 +77,7 @@ def update_mode():
             ch = stage_change()
             source_stage = config.STAGES[ch - 1]  # Convert choice to stage name
 
-            quantity = int(input("\nHow much stock is being moved to the next stage? "))
+            quantity = int(input("\nQuantity to move: "))
 
             # Move the stock
             result = database.move_stock(variant_id, source_stage, quantity)
@@ -208,18 +215,25 @@ def filter():
 def main():
     """Main program loop."""
     # Initialize database on startup
+    print('Hello Roopa Enterprises.\n')
     database.init_database()
+    print('Database ready!')
 
-    while True:
-        choice = main_menu()
+    try:
+        while True:
+            choice = main_menu()
 
-        if choice == 1:
-            update_mode()
-        elif choice == 2:
-            view_mode()
-        elif choice == 3:
-            print("\nGoodbye!")
-            break  # Exit the loop
+            if choice == 1:
+                update_mode()
+            elif choice == 2:
+                view_mode()
+            elif choice == 3:
+                print("\nGoodbye!")
+                break  # Exit the loop
+
+    except KeyboardInterrupt:
+        # Handle Ctrl+C gracefully
+        print("\n\nProgram interrupted. Goodbye!")
 
 if __name__ == "__main__":
     main()

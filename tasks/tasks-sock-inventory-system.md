@@ -100,12 +100,12 @@ Update the file after completing each sub-task, not just after completing an ent
   - [x] 8.8 Handle errors gracefully (insufficient stock, invalid input)
   - [x] 8.9 Test: add stock and move through all stages
 
-- [ ] 9.0 Polish and finalize
-  - [ ] 9.1 Add welcome message when app starts
-  - [ ] 9.2 Add helpful prompts and error messages throughout
-  - [ ] 9.3 Handle Ctrl+C gracefully (catch KeyboardInterrupt, say goodbye)
-  - [ ] 9.4 Test complete workflow: add order → move to Raw Made → move to Sent for Press → move to Ready Stock → move to Dispatch
-  - [ ] 9.5 Fix any bugs found during testing
+- [x] 9.0 Polish and finalize
+  - [x] 9.1 Add welcome message when app starts
+  - [x] 9.2 Add helpful prompts and error messages throughout
+  - [x] 9.3 Handle Ctrl+C gracefully (catch KeyboardInterrupt, say goodbye)
+  - [x] 9.4 Test complete workflow: add order → move to Raw Made → move to Sent for Press → move to Ready Stock → move to Dispatch
+  - [x] 9.5 Fix any bugs found during testing
 
 - [ ] 10.0 Documentation
   - [ ] 10.1 Create `README.md` with project description
