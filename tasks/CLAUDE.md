@@ -1098,3 +1098,4 @@ When working with task lists, the AI must:
 
 - i want a strong understanding of the code before you implement it. this means helping me understand the general implementation of the code and how it interacts with previous components and code. i should understand how the code works and why it's needed for the general workflow as well.
 - don't go too in depth for certain technologies. help me understand them but i dont necessarily need to know exactly how they work (for instance, explain to me what an API call is doing, what is returned, etc. but not how the API is workign behind the scenes) (essentially, rely on abstraction)
+- create simple github commit messages. should be a quick one liner

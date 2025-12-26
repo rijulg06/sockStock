@@ -71,14 +71,14 @@ Update the file after completing each sub-task, not just after completing an ent
   - [x] 5.4 Write `filter_inventory()` function: takes optional quality, color, size filters
   - [x] 5.5 Test manually: view all stock, filter by quality/color
 
-- [ ] 6.0 Create main.py - Main menu
-  - [ ] 6.1 Create `main.py` file
-  - [ ] 6.2 Import database functions and config
-  - [ ] 6.3 Write `main_menu()` function: display options (1. Update Mode, 2. View Mode, 3. Exit)
-  - [ ] 6.4 Get user choice with input validation (must be 1, 2, or 3)
-  - [ ] 6.5 Call appropriate mode function based on choice
-  - [ ] 6.6 Add loop to return to main menu after each mode
-  - [ ] 6.7 Test: run main.py and navigate menus
+- [x] 6.0 Create main.py - Main menu
+  - [x] 6.1 Create `main.py` file
+  - [x] 6.2 Import database functions and config
+  - [x] 6.3 Write `main_menu()` function: display options (1. Update Mode, 2. View Mode, 3. Exit)
+  - [x] 6.4 Get user choice with input validation (must be 1, 2, or 3)
+  - [x] 6.5 Call appropriate mode function based on choice
+  - [x] 6.6 Add loop to return to main menu after each mode
+  - [x] 6.7 Test: run main.py and navigate menus
 
 - [ ] 7.0 Create main.py - View Mode
   - [ ] 7.1 Write `view_mode()` function
