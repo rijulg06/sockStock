@@ -25,7 +25,7 @@ def init_database():
     # Create sock_variants table
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS sock_variants (
-            variant_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            variant_id INTEGER PRIMARY KEY,
             quality TEXT NOT NULL,
             color TEXT NOT NULL,
             size TEXT NOT NULL,
@@ -36,7 +36,7 @@ def init_database():
     # Create inventory table
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS inventory (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id INTEGER PRIMARY KEY,
             variant_id INTEGER NOT NULL,
             stage TEXT NOT NULL,
             quantity INTEGER NOT NULL DEFAULT 0,
@@ -113,3 +113,72 @@ def find_variant_id(quality=None, color=None, size=None):
 
     # Extract variant_ids from tuples and return as list
     return [row[0] for row in results]
+
+def add_stock(quality, color, size, quantity):
+    """
+    Add stock to the "Order" stage for a specific sock variant.
+
+    If the variant doesn't exist, it will be created. If stock already exists
+    in the Order stage, the quantity will be added to the existing amount.
+
+    Args:
+        quality (str): Quality grade of the sock (e.g., 'Premium', 'Standard')
+        color (str): Color of the sock (e.g., 'Red', 'Blue')
+        size (str): Size of the sock (e.g., 'S', 'M', 'L')
+        quantity (int): Quantity to add (must be positive)
+
+    Raises:
+        ValueError: If quantity is not positive
+
+    Example:
+        >>> add_stock('Premium', 'Red', 'M', 100)
+        >>> add_stock('Premium', 'Red', 'M', 50)  # Now 150 total in Order stage
+    """
+    # Validate input
+    if quantity <= 0:
+        raise ValueError(f"Quantity must be positive, got {quantity}")
+
+    conn = sqlite3.connect(config.DB_PATH)
+    cursor = conn.cursor()
+
+    try:
+        # Start transaction (implicit with first execute)
+
+        # Step 1: Create variant if it doesn't exist
+        cursor.execute("""
+            INSERT OR IGNORE INTO sock_variants (quality, color, size)
+            VALUES (?, ?, ?)
+        """, (quality, color, size))
+
+        # Step 2: Get the variant_id (within same connection/transaction)
+        cursor.execute("""
+            SELECT variant_id FROM sock_variants
+            WHERE quality = ? AND color = ? AND size = ?
+        """, (quality, color, size))
+
+        result = cursor.fetchone()
+        if not result:
+            raise ValueError(f"Failed to create/find variant: {quality} {color} {size}")
+
+        variant_id = result[0]
+
+        # Step 3: Add/update inventory in Order stage
+        cursor.execute("""
+            INSERT INTO inventory (variant_id, stage, quantity)
+            VALUES (?, ?, ?)
+            ON CONFLICT(variant_id, stage)
+            DO UPDATE SET
+                quantity = inventory.quantity + excluded.quantity
+        """, (variant_id, 'Order', quantity))
+
+        # Commit transaction
+        conn.commit()
+
+    except Exception as e:
+        # Rollback on any error
+        conn.rollback()
+        raise Exception(f"Failed to add stock: {e}")
+
+    finally:
+        # Always close connection
+        conn.close()

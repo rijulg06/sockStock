@@ -49,12 +49,12 @@ Update the file after completing each sub-task, not just after completing an ent
   - [x] 2.6 Write helper function `find_variant_id()` to search for variant_id by color, size, quality_grade
   - [x] 2.7 Test initialization by running function and checking if database file created
 
-- [ ] 3.0 Create database.py - Add stock functions
-  - [ ] 3.1 Write `add_stock()` function: takes quality, color, size, quantity
-  - [ ] 3.2 In `add_stock()`: get or create variant (INSERT OR IGNORE into sock_variants)
-  - [ ] 3.3 In `add_stock()`: add quantity to "Order" stage in inventory table
-  - [ ] 3.4 Use transactions (BEGIN, COMMIT, ROLLBACK on error)
-  - [ ] 3.5 Test manually: add a few different sock variants
+- [x] 3.0 Create database.py - Add stock functions
+  - [x] 3.1 Write `add_stock()` function: takes quality, color, size, quantity
+  - [x] 3.2 In `add_stock()`: get or create variant (INSERT OR IGNORE into sock_variants)
+  - [x] 3.3 In `add_stock()`: add quantity to "Order" stage in inventory table
+  - [x] 3.4 Use transactions (BEGIN, COMMIT, ROLLBACK on error)
+  - [x] 3.5 Test manually: add a few different sock variants
 
 - [ ] 4.0 Create database.py - Move stock functions
   - [ ] 4.1 Write `move_stock()` function: takes variant_id, source_stage, quantity
@@ -69,6 +69,7 @@ Update the file after completing each sub-task, not just after completing an ent
   - [ ] 5.2 Return list of dicts with: variant_id, quality, color, size, and quantity per stage
   - [ ] 5.3 Write `get_stock_summary()` function: sum quantities per stage
   - [ ] 5.4 Write `filter_inventory()` function: takes optional quality, color, size filters
+  
   - [ ] 5.5 Test manually: view all stock, filter by quality/color
 
 - [ ] 6.0 Create main.py - Main menu
