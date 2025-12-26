@@ -64,12 +64,12 @@ Update the file after completing each sub-task, not just after completing an ent
   - [x] 4.5 Return success/error message with before/after quantities
   - [x] 4.6 Test manually: add stock, then move through stages
 
-- [ ] 5.0 Create database.py - View stock functions
-  - [ ] 5.1 Write `get_all_inventory()` function: JOIN variants and inventory tables
-  - [ ] 5.2 Return list of dicts with: variant_id, quality, color, size, and quantity per stage
-  - [ ] 5.3 Write `get_stock_summary()` function: sum quantities per stage
-  - [ ] 5.4 Write `filter_inventory()` function: takes optional quality, color, size filters
-  - [ ] 5.5 Test manually: view all stock, filter by quality/color
+- [x] 5.0 Create database.py - View stock functions
+  - [x] 5.1 Write `get_all_inventory()` function: JOIN variants and inventory tables
+  - [x] 5.2 Return list of dicts with: variant_id, quality, color, size, and quantity per stage
+  - [x] 5.3 Write `get_stock_summary()` function: sum quantities per stage
+  - [x] 5.4 Write `filter_inventory()` function: takes optional quality, color, size filters
+  - [x] 5.5 Test manually: view all stock, filter by quality/color
 
 - [ ] 6.0 Create main.py - Main menu
   - [ ] 6.1 Create `main.py` file

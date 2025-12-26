@@ -301,3 +301,182 @@ def move_stock(variant_id, source_stage, quantity):
     finally:
         # Always close connection
         conn.close()
+
+def get_all_inventory():
+    """
+    Get all inventory records with variant details.
+
+    Returns:
+        list[dict]: List of inventory records, each containing:
+            - variant_id: Unique identifier for the sock variant
+            - quality: Quality grade
+            - color: Sock color
+            - size: Sock size
+            - stage: Production stage
+            - quantity: Quantity at that stage
+
+    Example:
+        >>> get_all_inventory()
+        [
+            {'variant_id': 1, 'quality': 'A', 'color': 'Red',
+             'size': 'L', 'stage': 'Order', 'quantity': 100},
+            {'variant_id': 1, 'quality': 'A', 'color': 'Red',
+             'size': 'L', 'stage': 'Raw Made', 'quantity': 50},
+            ...
+        ]
+    """
+    conn = sqlite3.connect(config.DB_PATH)
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute("""
+            SELECT
+                inventory.variant_id,
+                quality,
+                color,
+                size,
+                stage,
+                quantity
+            FROM inventory
+            JOIN sock_variants ON inventory.variant_id = sock_variants.variant_id
+            ORDER BY inventory.variant_id, stage
+        """)
+
+        rows = cursor.fetchall()
+
+        # Convert tuples to dictionaries for easier use
+        result = []
+        for row in rows:
+            result.append({
+                'variant_id': row[0],
+                'quality': row[1],
+                'color': row[2],
+                'size': row[3],
+                'stage': row[4],
+                'quantity': row[5]
+            })
+
+        return result
+
+    finally:
+        conn.close()
+
+def get_stock_summary():
+    """
+    Get total quantity of socks at each production stage.
+
+    Returns all stages from config.STAGES, even if they have 0 stock.
+
+    Returns:
+        dict: Mapping of stage name to total quantity
+            Example: {'Order': 500, 'Raw Made': 300, ...}
+
+    Example:
+        >>> get_stock_summary()
+        {
+            'Order': 500,
+            'Raw Made': 300,
+            'Sent for Press': 150,
+            'Ready Stock': 75,
+            'Dispatch': 25
+        }
+    """
+    conn = sqlite3.connect(config.DB_PATH)
+    cursor = conn.cursor()
+
+    try:
+        # Initialize all stages with 0
+        summary = {stage: 0 for stage in config.STAGES}
+
+        # Get actual totals from database
+        cursor.execute("""
+            SELECT stage, SUM(quantity) as total
+            FROM inventory
+            GROUP BY stage
+        """)
+
+        rows = cursor.fetchall()
+
+        # Update summary with actual values
+        for stage, total in rows:
+            if stage in summary:  # Verify it's a valid stage
+                summary[stage] = total
+
+        return summary
+
+    finally:
+        conn.close()
+
+def filter_inventory(quality=None, color=None, size=None):
+    """
+    Get inventory records filtered by quality, color, and/or size.
+
+    At least one filter parameter must be provided.
+
+    Args:
+        quality (str, optional): Quality grade filter
+        color (str, optional): Color filter
+        size (str, optional): Size filter
+
+    Returns:
+        list[dict]: Filtered inventory records with same format as get_all_inventory()
+
+    Raises:
+        ValueError: If no filter parameters are provided
+
+    Example:
+        >>> filter_inventory(color='Red')
+        [{'variant_id': 1, 'quality': 'A', 'color': 'Red', ...}, ...]
+
+        >>> filter_inventory(quality='A', size='L')
+        [{'variant_id': 5, 'quality': 'A', 'color': 'Blue', 'size': 'L', ...}, ...]
+    """
+    # Find matching variant IDs (this validates that at least one param is provided)
+    variants = find_variant_id(quality, color, size)
+
+    # Handle case where no variants match the filter
+    if not variants:
+        return []
+
+    conn = sqlite3.connect(config.DB_PATH)
+    cursor = conn.cursor()
+
+    try:
+        # Create safe parameterized query with placeholders
+        # Example: WHERE inventory.variant_id IN (?, ?, ?)
+        placeholders = ', '.join(['?'] * len(variants))
+
+        query = f"""
+            SELECT
+                inventory.variant_id,
+                quality,
+                color,
+                size,
+                stage,
+                quantity
+            FROM inventory
+            JOIN sock_variants ON inventory.variant_id = sock_variants.variant_id
+            WHERE inventory.variant_id IN ({placeholders})
+            ORDER BY inventory.variant_id, stage
+        """
+
+        # Execute with parameterized values (prevents SQL injection)
+        cursor.execute(query, variants)
+        rows = cursor.fetchall()
+
+        # Convert to dictionaries for consistency with get_all_inventory()
+        result = []
+        for row in rows:
+            result.append({
+                'variant_id': row[0],
+                'quality': row[1],
+                'color': row[2],
+                'size': row[3],
+                'stage': row[4],
+                'quantity': row[5]
+            })
+
+        return result
+
+    finally:
+        conn.close()
