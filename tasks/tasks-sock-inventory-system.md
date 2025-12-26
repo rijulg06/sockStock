@@ -40,13 +40,14 @@ Update the file after completing each sub-task, not just after completing an ent
   - [x] 1.4 Define stage transition map (which stage follows which)
   - [x] 1.5 Test by importing config and printing values
 
-- [ ] 2.0 Create database.py - Database schema and initialization
-  - [ ] 2.1 Create `database.py` file
-  - [ ] 2.2 Import sqlite3 and config
-  - [ ] 2.3 Write `init_database()` function to create tables (sock_variants, inventory)
-  - [ ] 2.4 Add SQL for sock_variants table (variant_id, quality, color, size, UNIQUE constraint)
-  - [ ] 2.5 Add SQL for inventory table (id, variant_id, stage, quantity, foreign key, constraints)
-  - [ ] 2.6 Test initialization by running function and checking if database file created
+- [x] 2.0 Create database.py - Database schema and initialization
+  - [x] 2.1 Create `database.py` file
+  - [x] 2.2 Import sqlite3 and config
+  - [x] 2.3 Write `init_database()` function to create tables (sock_variants, inventory)
+  - [x] 2.4 Add SQL for sock_variants table (variant_id, quality, color, size, UNIQUE constraint)
+  - [x] 2.5 Add SQL for inventory table (id, variant_id, stage, quantity, foreign key, constraints)
+  - [x] 2.6 Write helper function `find_variant_id()` to search for variant_id by color, size, quality_grade
+  - [x] 2.7 Test initialization by running function and checking if database file created
 
 - [ ] 3.0 Create database.py - Add stock functions
   - [ ] 3.1 Write `add_stock()` function: takes quality, color, size, quantity
