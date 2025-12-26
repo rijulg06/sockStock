@@ -89,16 +89,16 @@ Update the file after completing each sub-task, not just after completing an ent
   - [x] 7.6 Format output nicely with aligned columns
   - [x] 7.7 Test: view stock in different ways
 
-- [ ] 8.0 Create main.py - Update Mode
-  - [ ] 8.1 Write `update_mode()` function
-  - [ ] 8.2 Display update options: 1. Add new stock, 2. Move stock, 3. Back
-  - [ ] 8.3 Implement "Add new stock": prompt for quality, color, size, quantity, call `add_stock()`
-  - [ ] 8.4 Show confirmation message with what was added
-  - [ ] 8.5 Implement "Move stock": list variants with stock in each stage
-  - [ ] 8.6 Prompt user to select variant and source stage, enter quantity to move
-  - [ ] 8.7 Call `move_stock()` and display confirmation with before/after quantities
-  - [ ] 8.8 Handle errors gracefully (insufficient stock, invalid input)
-  - [ ] 8.9 Test: add stock and move through all stages
+- [x] 8.0 Create main.py - Update Mode
+  - [x] 8.1 Write `update_mode()` function
+  - [x] 8.2 Display update options: 1. Add new stock, 2. Move stock, 3. Back
+  - [x] 8.3 Implement "Add new stock": prompt for quality, color, size, quantity, call `add_stock()`
+  - [x] 8.4 Show confirmation message with what was added
+  - [x] 8.5 Implement "Move stock": list variants with stock in each stage
+  - [x] 8.6 Prompt user to select variant and source stage, enter quantity to move
+  - [x] 8.7 Call `move_stock()` and display confirmation with before/after quantities
+  - [x] 8.8 Handle errors gracefully (insufficient stock, invalid input)
+  - [x] 8.9 Test: add stock and move through all stages
 
 - [ ] 9.0 Polish and finalize
   - [ ] 9.1 Add welcome message when app starts
