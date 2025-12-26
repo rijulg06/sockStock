@@ -186,6 +186,11 @@ def filter_inventory():
             print_filters(filters)
             break
 
+    # If no filters applied, return all inventory
+    if not filters:
+        print("\nNo filters applied - showing all inventory")
+        return database.get_all_inventory()
+
     return database.filter_inventory(**filters)
 
 def print_filters(filters):
