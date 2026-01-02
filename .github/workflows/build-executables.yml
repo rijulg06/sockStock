@@ -34,34 +34,7 @@ jobs:
       run: |
         mkdir distribution
         copy dist\sockstock.exe distribution\
-        echo =============================================================================== > distribution\README.txt
-        echo     SOCK FACTORY INVENTORY MANAGEMENT SYSTEM >> distribution\README.txt
-        echo     Version 1.0 >> distribution\README.txt
-        echo     Roopa Enterprises >> distribution\README.txt
-        echo =============================================================================== >> distribution\README.txt
-        echo. >> distribution\README.txt
-        echo QUICK START >> distribution\README.txt
-        echo ----------- >> distribution\README.txt
-        echo 1. Double-click "sockstock.exe" to run the program >> distribution\README.txt
-        echo. >> distribution\README.txt
-        echo 2. The program will start automatically - no installation needed! >> distribution\README.txt
-        echo. >> distribution\README.txt
-        echo 3. Your inventory data is saved in "inventory.db" in this folder >> distribution\README.txt
-        echo. >> distribution\README.txt
-        echo FEATURES >> distribution\README.txt
-        echo -------- >> distribution\README.txt
-        echo - Add new stock (automatically placed in "Order" stage) >> distribution\README.txt
-        echo - Move stock between production stages >> distribution\README.txt
-        echo - Undo last operation >> distribution\README.txt
-        echo - View all inventory >> distribution\README.txt
-        echo - View summary by stage >> distribution\README.txt
-        echo - Filter stock by Quality, Color, or Size >> distribution\README.txt
-        echo. >> distribution\README.txt
-        echo PRODUCTION STAGES >> distribution\README.txt
-        echo ----------------- >> distribution\README.txt
-        echo Order -^> Raw Made -^> Sent for Press -^> Ready Stock -^> Dispatch >> distribution\README.txt
-        echo. >> distribution\README.txt
-        echo =============================================================================== >> distribution\README.txt
+        copy DISTRIBUTION_README.txt distribution\README.txt
 
     - name: Upload executable
       uses: actions/upload-artifact@v4
