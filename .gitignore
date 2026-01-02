@@ -22,3 +22,13 @@ env/
 # OS files
 .DS_Store
 Thumbs.db
+
+# PyInstaller build artifacts
+build/
+dist/
+*.spec
+
+# Distribution packages
+distribution/
+*.zip
+SockStock-v*/

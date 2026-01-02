@@ -1,3 +1,11 @@
+#!/usr/bin/env python3
+"""
+Sock Factory Inventory Management System - Main Entry Point
+
+A command-line interface for managing sock inventory through production stages.
+Run with: ./main.py or python3 main.py
+"""
+
 import database
 import config
 from tabulate import tabulate
